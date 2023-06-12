@@ -88,7 +88,9 @@ export class AuthService {
   // Sign in with Google
   GoogleAuth() {
     return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
-      this.router.navigate(['dashboard']);
+      setTimeout(() => {
+        this.router.navigate(['dashboard']);
+      }, 750)
     });
   }
 
@@ -105,14 +107,13 @@ export class AuthService {
       this.router.navigate(['dashboard']);
     });
   }
-  
+
   // Auth logic to run auth providers
   AuthLogin(provider: any) {
     return this.afAuth
       .signInWithPopup(provider)
       .then((result) => {
         this.SetUserData(result.user);
-        this.router.navigate(['dashboard']);
       })
       .catch((error) => {
         window.alert(error);

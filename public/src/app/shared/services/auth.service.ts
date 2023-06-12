@@ -88,16 +88,32 @@ export class AuthService {
   // Sign in with Google
   GoogleAuth() {
     return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
+      setTimeout(() => {
+        this.router.navigate(['dashboard']);
+      }, 750)
+    });
+  }
+
+  //Sign in with Facebook
+  FacebookAuth() {
+    return this.AuthLogin(new auth.FacebookAuthProvider()).then((res: any) => {
       this.router.navigate(['dashboard']);
     });
   }
+
+  //Sign in with Microsoft
+  MicrosoftAuth() {
+    return this.AuthLogin(new auth.OAuthProvider('microsoft.com')).then((res: any) => {
+      this.router.navigate(['dashboard']);
+    });
+  }
+
   // Auth logic to run auth providers
   AuthLogin(provider: any) {
     return this.afAuth
       .signInWithPopup(provider)
       .then((result) => {
         this.SetUserData(result.user);
-        this.router.navigate(['dashboard']);
       })
       .catch((error) => {
         window.alert(error);

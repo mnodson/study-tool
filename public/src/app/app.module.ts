@@ -17,6 +17,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './shared/guard/auth.guard';
 import { SignInComponent } from './components/sign-in/sign-in.component';
+import { BannerComponent } from './components/banner/banner.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
@@ -29,7 +30,8 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     SignInComponent,
-    DashboardComponent
+    DashboardComponent,
+    BannerComponent
   ],
   imports: [
     BrowserModule,

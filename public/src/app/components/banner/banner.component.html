@@ -1,0 +1,15 @@
+<div class="banner_container">
+
+    <div class="banner_actions">
+
+
+        <div class="banner_action" (click)="authService.SignOut()">
+            <i class="fa-solid fa-power-off"></i>
+        </div>
+
+    </div>
+
+    <div class="banner_avatar" *ngIf="authService.userData as user">
+        <img src="{{(user.photoURL) ? user.photoURL : '/assets/dummy-user.png'}}" alt="{{user.displayName}}">
+    </div>
+</div>

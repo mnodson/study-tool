@@ -6,10 +6,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireAuthModule, SETTINGS } from '@angular/fire/compat/auth';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { AngularFireRemoteConfig, AngularFireRemoteConfigModule, DEFAULTS, filterFresh, scanToObject } from '@angular/fire/compat/remote-config';
 
 import { environment } from '../environments/environment';
 import { AuthService } from './shared/services/auth.service';
@@ -18,6 +19,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './shared/guard/auth.guard';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { BannerComponent } from './components/banner/banner.component';
+import { first } from 'rxjs';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
@@ -43,8 +45,14 @@ const routes: Routes = [
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireDatabaseModule,
+    AngularFireRemoteConfigModule
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    { provide: DEFAULTS, useValue: { friend_list: true, maintenance_message: 'test' } },
+    { provide: SETTINGS, useFactory: () => { minimumFetchIntervalMillis: 0 } }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

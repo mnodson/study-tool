@@ -1,1 +1,8 @@
 <app-banner></app-banner>
+
+<div class="panel" *ngIf="showFriendList">
+    <div class="heading">My Friends</div>
+    <div class="item" *ngFor="let friend of (userObject | async)?.friends">
+        {{friend.displayName}}
+    </div>
+</div>

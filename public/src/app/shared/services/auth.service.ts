@@ -11,7 +11,19 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  userData: any; // Save logged in user data
+
+  private _userData: User | undefined;
+
+  public get userData(): User | null {
+    const user = this._userData || JSON.parse(localStorage.getItem('user') || '');
+    return user
+  }
+
+  public set userData(value: any) {
+    this._userData = value;
+  }
+
+
   constructor(
     public afs: AngularFirestore, // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
@@ -126,7 +138,6 @@ export class AuthService {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
     );
-    console.log('user data', user);
     const userData: User = {
       uid: user.uid,
       email: user.email,

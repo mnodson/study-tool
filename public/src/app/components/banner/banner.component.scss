@@ -8,6 +8,20 @@
     height: 3rem;
     background: #BDBDBD;
     border-top: 3px solid #36fdff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .heading {
+        color: #ECEFF1;
+        font-family: "Lobster Two", cursive;
+        font-weight: 400;
+        font-style: italic;
+        font-size: 1.5rem;
+        padding-left: 1rem;
+        text-shadow: 1px 1px 6px #e91e4e;
+    }
 
     .banner_avatar {
         position: absolute;

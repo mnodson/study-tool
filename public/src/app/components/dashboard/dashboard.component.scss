@@ -7,6 +7,15 @@
     background-repeat: no-repeat;
     display: grid;
     grid-template-rows: 1fr 1fr;
+
+    // &:after {
+    //     content: '';
+    //     background-image: url('/assets/images/home_bkg.gif');
+    //     background-position: center center;
+    //     background-size: 80%;
+    //     background-repeat: no-repeat;
+    //     margin-bottom: 3rem;
+    // }
 }
 
 .panel {
@@ -18,6 +27,9 @@
     padding: 1rem;
     color: #EEEEEE;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     .heading {
         color: #E91E63;
@@ -40,9 +52,55 @@
         border: 1px solid #37464d;
         border-radius: 0.25rem;
         box-shadow: inset 0 0 3px 0px #000;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
 
         &:hover {
             background: lighten(#25262f, 10%);
         }
+    }
+
+    .tray {
+        background: #1c1d2f;
+        padding: 0.5rem;
+        box-sizing: border-box;
+        margin-left: -1rem;
+        margin-bottom: -1rem;
+        margin-right: -1rem;
+        border-bottom-left-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
+        border-top: 1px solid #880E4F;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        flex-basis: 3.5rem;
+
+
+        .tray-item {
+            background: #37474F;
+            padding: 0.7rem 1rem;
+            border-radius: 1.5rem;
+        }
+
+        .input-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 1rem;
+            flex: 1 0;
+
+            input {
+                border-radius: 0.2rem;
+                border: none;
+                outline: none;
+                padding: 0 0.5rem;
+                font-size: 1rem;
+                flex: 1;
+            }
+        }
+
+        
+
     }
 }

@@ -2,7 +2,27 @@
 
 <div class="panel" *ngIf="showFriendList">
     <div class="heading">My Friends</div>
-    <div class="item" *ngFor="let friend of (userObject | async)?.friends">
-        {{friend.displayName}}
+
+    <div class="item-list">
+        <div class="item" *ngFor="let friend of (userObject | async)?.friends">
+            <div class="name">
+            {{friend.displayName}}
+            </div>
+            <div class="action" (click)="removeFriend(friend.uid)">
+                <i class="fa-solid fa-user-minus"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="tray">
+        <div class="tray-item" *ngIf="!isSearching; else searchInput" (click)="isSearching = true"><i class="fa-solid fa-magnifying-glass"></i>&nbsp;Search</div>
+        
+        <ng-template #searchInput>
+            <div class="input-container">
+
+            <input type="text" placeholder="Search for friends" autofocus/>
+            <div class="tray-item" (click)="isSearching = false"><i class="fa-solid fa-circle-xmark"></i></div>
+        </div>
+        </ng-template>
     </div>
 </div>

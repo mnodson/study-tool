@@ -11,7 +11,11 @@ import { User } from 'src/app/shared/services/user';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+
+  private _userData: User | null | undefined;
+
   public showFriendList: boolean | undefined;
+  public isSearching: boolean = false;
 
   constructor(public authService: AuthService, public friendService: FriendsService, public remoteConfig: RemoteConfigService) {}
 
@@ -25,10 +29,28 @@ export class DashboardComponent implements OnInit {
         this.showFriendList = value
       });
 
-    const userData = this.authService.userData;
+    this._userData = this.authService.userData;
 
-    if (userData) {
-      this.userObject = this.friendService.fetchFriends(userData.uid);
+    if (this._userData) {
+      this.userObject = this.friendService.fetchUserAndFriends(this._userData.uid);
     }
+  }
+
+  public removeFriend(friendUid: string) {
+    console.log(friendUid);
+
+    this.friendService.removeFriend(this._userData!.uid, friendUid)
+      .subscribe(res => {
+        console.log('response from service', res);
+        this.userObject = this.friendService.fetchUserAndFriends(this._userData!.uid);
+      });
+  }
+
+
+  public sendFriendRequest(friendUid: string) {
+    this.friendService.sendFriendRequest(this._userData!.uid, friendUid)
+      .then(res => {
+        
+      });
   }
 }

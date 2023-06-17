@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { Observable, debounce, debounceTime, distinctUntilChanged, filter, interval, map, of, scan, switchMap } from 'rxjs';
+import { isNonNull } from 'src/app/shared/helpers/non-null';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { FriendsService } from 'src/app/shared/services/friends.service';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config.service';
@@ -16,16 +18,18 @@ export class DashboardComponent implements OnInit {
 
   public showFriendList: boolean | undefined;
   public isSearching: boolean = false;
+  public userObject: Observable<{ user: User, friends: User[] | undefined }> | undefined
+  public userSearchFormControl: FormControl = new FormControl();
 
-  constructor(public authService: AuthService, public friendService: FriendsService, public remoteConfig: RemoteConfigService) {}
 
-  public userObject: Observable<{user: User, friends: User[] | undefined}> | undefined
+  constructor(public authService: AuthService, public friendService: FriendsService, public remoteConfig: RemoteConfigService) { }
+
+
 
   ngOnInit(): void {
 
     this.remoteConfig.getBooleanValue('friend_list')
       .then(value => {
-        console.log('value', value);
         this.showFriendList = value
       });
 
@@ -34,14 +38,23 @@ export class DashboardComponent implements OnInit {
     if (this._userData) {
       this.userObject = this.friendService.fetchUserAndFriends(this._userData.uid);
     }
+
+    this.userSearchFormControl.valueChanges
+      .pipe(
+        filter(isNonNull),
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((searchTerm) => this.friendService.search(searchTerm))
+      )
+      .subscribe(results => {
+        console.log('user search form control', results);
+      })
   }
 
   public removeFriend(friendUid: string) {
-    console.log(friendUid);
 
     this.friendService.removeFriend(this._userData!.uid, friendUid)
-      .subscribe(res => {
-        console.log('response from service', res);
+      .subscribe(() => {
         this.userObject = this.friendService.fetchUserAndFriends(this._userData!.uid);
       });
   }
@@ -50,7 +63,7 @@ export class DashboardComponent implements OnInit {
   public sendFriendRequest(friendUid: string) {
     this.friendService.sendFriendRequest(this._userData!.uid, friendUid)
       .then(res => {
-        
+
       });
   }
 }

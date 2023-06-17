@@ -20,6 +20,7 @@ import { authGuard } from './shared/guard/auth.guard';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { BannerComponent } from './components/banner/banner.component';
 import { first } from 'rxjs';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
@@ -40,6 +41,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forRoot(routes),
     AppRoutingModule,
+    ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,

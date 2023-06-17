@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument, DocumentReference } from '@angular/fire/compat/firestore';
-import { Observable, concatAll, filter, first, flatMap, forkJoin, map, mergeAll, mergeMap, of, single, switchMap, take, toArray } from 'rxjs';
+import { AngularFirestore, AngularFirestoreDocument, DocumentChangeAction, DocumentReference, QuerySnapshot } from '@angular/fire/compat/firestore';
+import { Observable, concatAll, filter, first, flatMap, forkJoin, map, mergeAll, mergeMap, of, single, switchMap, take, tap, toArray } from 'rxjs';
 import { User } from './user';
 import { FriendRequest } from './friendRequest';
 
@@ -65,9 +65,9 @@ export class FriendsService {
       );
   }
 
-  public sendFriendRequest(uid: string, friendUid: string) : Promise<DocumentReference<FriendRequest>> {
+  public sendFriendRequest(uid: string, friendUid: string): Promise<DocumentReference<FriendRequest>> {
     const friend_requests = this.afs.collection<FriendRequest>('friend_requests');
-    
+
     const fr: FriendRequest = {
       requesting_uid: uid,
       target_uid: friendUid
@@ -78,6 +78,16 @@ export class FriendsService {
 
   public addFriend(uid: string, friendUid: string) {
 
+  }
+
+  public search(term: string): Observable<User> {
+    console.log('searching', term)
+    const lowercaseTerm = term.toLowerCase();
+    return this.afs.collection<User>('users', ref => { return ref.orderBy('displayNameLower').startAt(lowercaseTerm).endAt(lowercaseTerm + '\uf8ff') }).get().pipe(
+      tap(r => console.log('search response', r)),
+      switchMap(r => r.docs),
+      map(u => u.data())
+    );
   }
 
   private setUserData(userData: User) {

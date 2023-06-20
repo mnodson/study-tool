@@ -51,12 +51,43 @@
             background: lighten(#25262f, 10%);
         }
 
-        .action {
-            &.destructive {
-                color: #794747;
+        &.notification {
+            background: linear-gradient(to right, #E91E63, #19191e);
+        }
 
-                &:hover {
-                    color: #df2e2e;
+        &.myRequests {
+            background: linear-gradient(to right, #3b417f, #19191e);
+        }
+
+        .name {
+            >span {
+                font-size: 0.7rem;
+                color: #B39DDB;
+            }
+        }
+
+        .item-actions {
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+
+            .action {
+                cursor: pointer;
+
+                &.destructive {
+                    color: #794747;
+
+                    &:hover {
+                        color: #df2e2e;
+                    }
+                }
+
+                &.positive {
+                    color: #69e969;
+
+                    &:hover {
+                        color: #97ff97;
+                    }
                 }
             }
         }
@@ -74,25 +105,49 @@
         border-top: 1px solid #880E4F;
         display: flex;
         flex-direction: row;
-        justify-content: flex-end;
+        justify-content: space-between;
         flex-basis: 3.5rem;
+
+        .left-actions {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+        }
 
 
         .tray-item {
             background: #37474F;
             padding: 0.7rem 1rem;
             border-radius: 1.5rem;
-            box-shadow: 0px 2px 0 0px #9E9E9E;
+            box-shadow: 1px 2px 0 0px #9E9E9E;
             cursor: pointer;
             user-select: none;
+            position: relative;
 
-            &:active {
+            &:active,
+            &.current {
                 box-shadow: none;
                 transform: translateY(2px);
+                transform: translateX(2px);
+                background: lighten(#37474F, 5%);
+                color: #36fdff;
             }
 
             &:hover {
-                background: lighten(#37474F, 5%)
+                background: lighten(#37474F, 5%);
+            }
+
+            &.notify {
+                &:after {
+                    content: "";
+                    width: 0.5rem;
+                    height: 0.5rem;
+                    position: absolute;
+                    background: #FF9800;
+                    top: 0;
+                    right: 4px;
+                    border-radius: 5rem;
+                }
             }
         }
 
@@ -112,8 +167,5 @@
                 flex: 1;
             }
         }
-
-
-
     }
 }

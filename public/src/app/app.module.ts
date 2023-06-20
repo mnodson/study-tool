@@ -21,6 +21,7 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { BannerComponent } from './components/banner/banner.component';
 import { first } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FromNowDatePipe } from './shared/pipes/fromDate.pipe';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
@@ -34,7 +35,8 @@ const routes: Routes = [
     AppComponent,
     SignInComponent,
     DashboardComponent,
-    BannerComponent
+    BannerComponent,
+    FromNowDatePipe
   ],
   imports: [
     BrowserModule,

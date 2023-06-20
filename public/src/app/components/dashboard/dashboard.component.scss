@@ -66,11 +66,12 @@
             gap: 1rem;
 
             .avatar {
-                border: 2px solid #607D8B;
+                border: 2px solid #25252d;
                 border-radius: 5rem;
                 img {
                     height: 2rem;
-                    border-radius: 5rem;
+                    border-radius: 1rem;
+                    vertical-align: middle;
                 }
             }
         }

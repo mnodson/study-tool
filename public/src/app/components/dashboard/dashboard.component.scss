@@ -5,4 +5,167 @@
     height: 100vh;
     background-position: top;
     background-repeat: no-repeat;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+}
+
+.panel {
+    background: #05071a;
+    margin: 2rem 1rem;
+    box-sizing: border-box;
+    border: 1px solid #4527A0;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    color: #EEEEEE;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .heading {
+        color: #E91E63;
+        font-family: "Lobster Two", cursive;
+        font-weight: 400;
+        font-style: italic;
+        font-size: 1.5rem;
+        background: #0b0a23;
+        display: table;
+        padding: 0 0.5rem;
+        position: absolute;
+        top: -1rem;
+        left: 0.5rem;
+    }
+
+    .item {
+        padding: 1rem 0.5rem;
+        margin: 0.5rem 0;
+        background: linear-gradient(to right, #25262f, #19191e);
+        border: 1px solid #37464d;
+        border-radius: 0.25rem;
+        box-shadow: inset 0 0 3px 0px #000;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        &:hover {
+            background: lighten(#25262f, 10%);
+        }
+
+        &.notification {
+            background: linear-gradient(to right, #E91E63, #19191e);
+        }
+
+        &.myRequests {
+            background: linear-gradient(to right, #3b417f, #19191e);
+        }
+
+        .name {
+            >span {
+                font-size: 0.7rem;
+                color: #B39DDB;
+            }
+        }
+
+        .item-actions {
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+
+            .action {
+                cursor: pointer;
+
+                &.destructive {
+                    color: #794747;
+
+                    &:hover {
+                        color: #df2e2e;
+                    }
+                }
+
+                &.positive {
+                    color: #69e969;
+
+                    &:hover {
+                        color: #97ff97;
+                    }
+                }
+            }
+        }
+    }
+
+    .tray {
+        background: #1c1d2f;
+        padding: 0.5rem;
+        box-sizing: border-box;
+        margin-left: -1rem;
+        margin-bottom: -1rem;
+        margin-right: -1rem;
+        border-bottom-left-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
+        border-top: 1px solid #880E4F;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-basis: 3.5rem;
+
+        .left-actions {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+        }
+
+
+        .tray-item {
+            background: #37474F;
+            padding: 0.7rem 1rem;
+            border-radius: 1.5rem;
+            box-shadow: 1px 2px 0 0px #9E9E9E;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+
+            &:active,
+            &.current {
+                box-shadow: none;
+                transform: translateY(2px);
+                transform: translateX(2px);
+                background: lighten(#37474F, 5%);
+                color: #36fdff;
+            }
+
+            &:hover {
+                background: lighten(#37474F, 5%);
+            }
+
+            &.notify {
+                &:after {
+                    content: "";
+                    width: 0.5rem;
+                    height: 0.5rem;
+                    position: absolute;
+                    background: #FF9800;
+                    top: 0;
+                    right: 4px;
+                    border-radius: 5rem;
+                }
+            }
+        }
+
+        .input-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 1rem;
+            flex: 1 0;
+
+            input {
+                border-radius: 0.2rem;
+                border: none;
+                outline: none;
+                padding: 0 0.5rem;
+                font-size: 1rem;
+                flex: 1;
+            }
+        }
+    }
 }

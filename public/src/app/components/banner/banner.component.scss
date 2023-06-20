@@ -8,21 +8,53 @@
     height: 3rem;
     background: #BDBDBD;
     border-top: 3px solid #36fdff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .heading {
+        color: #ECEFF1;
+        font-family: "Lobster Two", cursive;
+        font-weight: 400;
+        font-style: italic;
+        font-size: 1.5rem;
+        padding-left: 1rem;
+        text-shadow: 1px 1px 6px #e91e4e;
+    }
 
     .banner_avatar {
         position: absolute;
         left: calc(50% - 5rem);
         bottom: 0rem;
-        background: url(/assets/images/circle_1.png);
         width: 10rem;
         height: 10rem;
-        background-size: cover;
-        background-position: center;
+
+        &:before {
+            content: '';
+            background: url(/assets/images/circle_1.png);
+            width: 10rem;
+            height: 10rem;
+            z-index: 1000;
+            position: absolute;
+            background-size: contain;
+        }
 
         img {
             border-radius: 50%;
             margin-left: 2rem;
             margin-top: 2rem;
+
+
+        }
+
+        &:hover {
+
+            &:before {
+                animation-name: rotate;
+                animation-iteration-count: infinite;
+                animation-duration: 1.5s;
+            }
         }
     }
 
@@ -36,7 +68,7 @@
         box-sizing: border-box;
 
         .banner_action {
-            padding: 0.5rem;
+            padding: 0.5rem 1rem;
             border: 1px solid #607D8B;
             border-radius: 0.25rem;
             background: #fff;
@@ -53,4 +85,14 @@
         }
     }
 
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(720deg);
+    }
 }

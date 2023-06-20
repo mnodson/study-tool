@@ -1,5 +1,7 @@
 <div class="banner_container">
 
+<div class="heading">StudySphere</div>
+
     <div class="banner_actions">
 
 
@@ -10,6 +12,7 @@
     </div>
 
     <div class="banner_avatar" *ngIf="authService.userData as user">
+
         <img src="{{(user.photoURL) ? user.photoURL : '/assets/dummy-user.png'}}" alt="{{user.displayName}}">
     </div>
 </div>

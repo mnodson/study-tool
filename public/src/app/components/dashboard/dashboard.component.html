@@ -1,1 +1,86 @@
 <app-banner></app-banner>
+
+<div class="panel" *ngIf="showFriendList">
+    <div class="heading">{{friendHeading}}</div>
+
+    <div [ngSwitch]="friendHeading">
+
+        <div class="item-list" *ngSwitchCase="'My Friends'">
+            <div class="item" *ngFor="let friend of (userObject | async)?.friends">
+                <div class="name">
+                    {{friend.displayName}}
+                </div>
+                <div class="item-actions">
+                    <div class="action destructive" (click)="removeFriend(friend.uid)">
+                        <i class="fa-solid fa-user-minus"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item-list" *ngSwitchCase="'My Requests'">
+            <div class="item myRequests" *ngFor="let request of ownRequests">
+                <div class="name">
+                    {{request.meta.displayName}} <span>({{request.meta.dateOfActionIso | fromNow}})</span>
+                </div>
+                <div class="item-actions">
+                    <div class="action destructive" (click)="cancel(request)">
+                        <i class="fa-solid fa-times"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item-list" *ngSwitchCase="'Notifications'">
+            <div class="item notification" *ngFor="let request of friendRequests">
+                <div class="name">
+                    {{request.meta.displayName}}
+                </div>
+                <div class="item-actions">
+                    <div class="action destructive" (click)="reject(request)">
+                        <i class="fa-solid fa-user-xmark"></i>
+                    </div>
+                    <div class="action positive" (click)="accept(request)">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item-list" *ngSwitchCase="'Search Results'">
+            <div *ngIf="searchResults.notFound">
+                <h3>No users found</h3>
+            </div>
+            <div class="item" *ngFor="let user of searchResults.users">
+                <div class="name">{{user.displayName}}</div>
+                <div class="action additive" (click)="requestFriend(user)">
+                    <i class="fa-solid fa-user-plus"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tray">
+        <div class="left-actions">
+            <div class="tray-item" [class.current]="showFriends" *ngIf="!isSearching" (click)="displayFriends()"><i
+                    class="fa-solid fa-user-group"></i>
+            </div>
+            <div class="tray-item" [class.current]="showMyFriendRequests" *ngIf="!isSearching"
+                (click)="displayFriendRequests()"><i class="fa-solid fa-people-arrows"></i></div>
+            <div class="tray-item" [class.current]="showNotifications"
+                [class.notify]="friendRequests && friendRequests.length > 0" *ngIf="!isSearching"
+                (click)="displayNotifications()"><i class="fa-solid fa-bell"></i>
+            </div>
+
+        </div>
+        <div class="tray-item" *ngIf="!isSearching; else searchInput" (click)="showSearch()"><i
+                class="fa-solid fa-magnifying-glass"></i>&nbsp;Search</div>
+
+        <ng-template #searchInput>
+            <div class="input-container">
+                <input type="text" placeholder="Search for friends" [formControl]="userSearchFormControl" />
+                <div class="tray-item" (click)="hideSearch()"><i class="fa-solid fa-circle-xmark"></i></div>
+            </div>
+        </ng-template>
+    </div>
+</div>

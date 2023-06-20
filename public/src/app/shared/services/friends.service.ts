@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument, DocumentChangeAction, DocumentReference, QuerySnapshot } from '@angular/fire/compat/firestore';
-import { BehaviorSubject, Observable, catchError, concatAll, delay, filter, first, flatMap, forkJoin, map, mergeAll, mergeMap, of, single, switchMap, take, tap, throwError, toArray } from 'rxjs';
+import { AngularFirestore, AngularFirestoreDocument, DocumentReference } from '@angular/fire/compat/firestore';
+import { FieldValue, arrayUnion } from 'firebase/firestore';
+import { BehaviorSubject, Observable, catchError, forkJoin, map, mergeMap, of, switchMap, throwError, toArray } from 'rxjs';
 import { User } from './user';
 import { FriendRequest, UserMetaWithStatus } from './friendRequest';
 
@@ -179,20 +180,16 @@ export class FriendsService {
     )
   }
 
-  public acceptFriendRequest(currentUser: User, request: { userId: string; meta: UserMetaWithStatus; }): Promise<[void, void]> {
-    const addNewUser = {
-      friend_ids: [request.userId]
-    }
-
-    const addNewCurrent = {
-      friend_ids: [currentUser.uid]
-    }
+  public acceptFriendRequest(currentUser: User, request: { userId: string; meta: UserMetaWithStatus; }): Promise<[DocumentReference<User>, DocumentReference<User>]> {
 
     this.cancelFriendRequest(currentUser, request);
     this.rejectFriendRequest(currentUser, request);
 
-    const currentUpdate = this.afs.collection<User>('users').doc(currentUser.uid).update(addNewUser);
-    const requestUpdate = this.afs.collection<User>('users').doc(request.userId).update(addNewCurrent);
+    const currentUpdate = this.afs.collection<User>('users').doc(currentUser.uid).ref;
+    currentUpdate.update({'friend_ids': arrayUnion(request.userId)});
+
+    const requestUpdate = this.afs.collection<User>('users').doc(request.userId).ref;
+    requestUpdate.update({'friend_ids': arrayUnion(currentUser.uid)});
 
     return Promise.all([currentUpdate, requestUpdate]);
   }
